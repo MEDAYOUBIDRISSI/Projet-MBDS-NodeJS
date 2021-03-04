@@ -74,7 +74,7 @@ app.post(prefix + '/login', (req, res) => {
         email: 'mi.idmansour@gmail.com'
     }
 
-    jwt.sign({user}, 'secretkey', {expiresIn: '3000s'}, (err, token) => {
+    jwt.sign({user}, 'secretkey', {expiresIn: '900000s'}, (err, token) => {
         res.json({
             token
         });
