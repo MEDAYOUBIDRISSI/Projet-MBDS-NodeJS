@@ -54,6 +54,8 @@ let port = process.env.PORT || 8010;
 const prefix = "/api";
 
 app.route(prefix + "/assignments").get(assignment.getAssignments);
+app.route(prefix + "/assignments/rendu").get(assignment.getAssignmentsRendu);
+app.route(prefix + "/assignments/nonrendu").get(assignment.getAssignmentsNonRendu);
 
 app
     .route(prefix + "/assignments/:id")
@@ -65,6 +67,10 @@ app
     .post(assignment.postAssignment)
     .put(assignment.updateAssignment);
 
+// pour le chart.js
+app
+    .route(prefix + "/chart/assignments/")
+    .get(assignment.chartsJs)
 
 app.post(prefix + '/login', (req, res) => {
 

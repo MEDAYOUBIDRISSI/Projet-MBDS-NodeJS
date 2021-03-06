@@ -1,6 +1,7 @@
 let Assignment = require("../model/assignment");
 // add Json Web Token (Jwt)
 const jwtToken = require('jsonwebtoken')
+var nb = 0;
 /*
 // Récupérer tous les assignments (GET)
 function getAssignments(req, res){
@@ -37,6 +38,70 @@ function getAssignments(req, res) {
             );
         }
     });
+
+}
+
+// get Assignment avec l'état 'rendu'
+
+function getAssignmentsRendu(req, res) {
+    /*(req, res)
+    jwtToken.verify(req.token, 'secretkey', (err, authData) => {
+        if (err) {
+            res.sendStatus(403);
+        } else {*/
+    var aggregateQuery = Assignment.aggregate([
+        {
+            $match:
+                {
+                    'rendu': true,
+                }
+        }]);
+    Assignment.aggregatePaginate(
+        aggregateQuery,
+        {
+            page: parseInt(req.query.page) || 1,
+            limit: parseInt(req.query.limit) || 10,
+        },
+        (err, assignments) => {
+            if (err) {
+                res.send(err);
+            }
+            res.send(assignments);
+        }
+    );
+    /*  }
+  });*/
+
+}
+
+function getAssignmentsNonRendu(req, res) {
+    /*(req, res)
+    jwtToken.verify(req.token, 'secretkey', (err, authData) => {
+        if (err) {
+            res.sendStatus(403);
+        } else {*/
+    var aggregateQuery = Assignment.aggregate([
+        {
+            $match:
+                {
+                    'rendu': false,
+                }
+        }]);
+    Assignment.aggregatePaginate(
+        aggregateQuery,
+        {
+            page: parseInt(req.query.page) || 1,
+            limit: parseInt(req.query.limit) || 10,
+        },
+        (err, assignments) => {
+            if (err) {
+                res.send(err);
+            }
+            res.send(assignments);
+        }
+    );
+    /*  }
+  });*/
 
 }
 
@@ -140,6 +205,43 @@ function deleteAssignment(req, res) {
 
 }
 
+// Pour le chart js
+
+// Récupérer un assignment par son id (GET)
+
+async function getNbByNote($min, $max) {
+    nb = 0
+    await Assignment.find({note: {$lte: $min}, note: {$gte: $max}}, (err, assignment) => {
+        if (err) {
+            res.send(err);
+        }
+        nb = assignment.length
+        console.log("1=>", nb)
+    });
+    console.log("2=>", nb)
+    return nb;
+}
+
+async function chartsJs(req, res) {
+    resTab = [
+        {
+            "name": "0-4",
+            "value": await getNbByNote(0, 4)
+        }, {
+            "name": "5-9",
+            "value": await getNbByNote(5, 9)
+        }, {
+            "name": "10-15",
+            "value": await getNbByNote(10, 15)
+        }, {
+            "name": "16-20",
+            "value": await getNbByNote(16, 20)
+        }
+    ];
+    console.clear();
+    res.send(resTab)
+}
+
 // FORMAT OF TOKEN
 // Authorization: Bearer <access_token>
 
@@ -170,5 +272,8 @@ module.exports = {
     getAssignment,
     updateAssignment,
     deleteAssignment,
+    getAssignmentsRendu,
+    getAssignmentsNonRendu,
+    chartsJs,
     verifyToken,
 };
