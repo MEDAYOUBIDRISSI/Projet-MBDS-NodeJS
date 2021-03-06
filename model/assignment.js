@@ -13,10 +13,9 @@ let AssignmentSchema = Schema({
     libelle: String,
     imgProf: String,
     imgMat: String,
-  },
+  }, 
   note: Number,
   remarques: String,
-
 });
 AssignmentSchema.plugin(aggregatePaginate);
 

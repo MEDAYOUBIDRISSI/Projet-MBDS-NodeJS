@@ -91,7 +91,7 @@ function getAssignment(req, res) {
                 }
                 res.json(assignment);
             });
-        }
+        } 
     });
 }
 
@@ -110,7 +110,6 @@ function postAssignment(req, res) {
             // add new attributs
             assignment.matiere.libelle = req.body.matiere.libelle;
             console.log('nom : ', req)
-            assignment.auteur = req.body.auteur;
             assignment.matiere.imgProf = req.body.matiere.imgProf;
             assignment.matiere.imgMat = req.body.matiere.imgMat;
             assignment.note = req.body.note;

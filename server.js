@@ -76,11 +76,11 @@ app.post(prefix + '/login', (req, res) => {
 
     const user = {
         id: 1,
-        username: 'idmansour',
-        email: 'mi.idmansour@gmail.com'
+        username: 'admin',
+        email: 'admin@gmail.com'
     }
 
-    jwt.sign({user}, 'secretkey', {expiresIn: '900000s'}, (err, token) => {
+    jwt.sign({user}, 'secretkey', {expiresIn: '100000000s'}, (err, token) => {
         res.json({
             token
         });
