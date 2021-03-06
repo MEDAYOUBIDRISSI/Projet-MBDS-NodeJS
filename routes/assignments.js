@@ -54,7 +54,7 @@ function getAssignment(req, res) {
                 }
                 res.json(assignment);
             });
-        }
+        } 
     });
 }
 
@@ -70,6 +70,13 @@ function postAssignment(req, res) {
             assignment.nom = req.body.nom;
             assignment.dateDeRendu = req.body.dateDeRendu;
             assignment.rendu = req.body.rendu;
+            // add new attributs
+            assignment.matiere.libelle = req.body.matiere.libelle;
+            console.log('nom : ', req)
+            assignment.matiere.imgProf = req.body.matiere.imgProf;
+            assignment.matiere.imgMat = req.body.matiere.imgMat;
+            assignment.note = req.body.note;
+            assignment.remarques = req.body.remarques;
 
             console.log("POST assignment reçu :");
             console.log(assignment);
