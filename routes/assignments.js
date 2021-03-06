@@ -49,26 +49,12 @@ function getAssignmentsRendu(req, res) {
         if (err) {
             res.sendStatus(403);
         } else {*/
-    var aggregateQuery = Assignment.aggregate([
-        {
-            $match:
-                {
-                    'rendu': true,
-                }
-        }]);
-    Assignment.aggregatePaginate(
-        aggregateQuery,
-        {
-            page: parseInt(req.query.page) || 1,
-            limit: parseInt(req.query.limit) || 10,
-        },
-        (err, assignments) => {
-            if (err) {
-                res.send(err);
-            }
-            res.send(assignments);
+    Assignment.find({rendu: true}, (err, assignment) => {
+        if (err) {
+            res.send(err);
         }
-    );
+        res.json(assignment);
+    });
     /*  }
   });*/
 
@@ -80,26 +66,12 @@ function getAssignmentsNonRendu(req, res) {
         if (err) {
             res.sendStatus(403);
         } else {*/
-    var aggregateQuery = Assignment.aggregate([
-        {
-            $match:
-                {
-                    'rendu': false,
-                }
-        }]);
-    Assignment.aggregatePaginate(
-        aggregateQuery,
-        {
-            page: parseInt(req.query.page) || 1,
-            limit: parseInt(req.query.limit) || 10,
-        },
-        (err, assignments) => {
-            if (err) {
-                res.send(err);
-            }
-            res.send(assignments);
+    Assignment.find({rendu: false}, (err, assignment) => {
+        if (err) {
+            res.send(err);
         }
-    );
+        res.json(assignment);
+    });
     /*  }
   });*/
 
